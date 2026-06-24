@@ -1,0 +1,50 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  color-scheme: light;
+}
+
+body {
+  @apply bg-slate-50 text-slate-900 antialiased;
+}
+
+/* ===== Tetapan cetakan (print) ===== */
+.print-only {
+  display: none;
+}
+
+@media print {
+  /* Sembunyikan elemen yang tidak perlu dicetak */
+  .no-print {
+    display: none !important;
+  }
+  .print-only {
+    display: block !important;
+  }
+  /* Pastikan warna latar (blok tempahan) dicetak */
+  * {
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+  body {
+    background: #fff;
+  }
+  main {
+    max-width: none !important;
+    padding: 0 !important;
+  }
+  /* Paksa paparan minggu kekal 7 lajur semasa cetak */
+  .week-grid {
+    grid-template-columns: repeat(7, minmax(0, 1fr)) !important;
+    gap: 0.25rem !important;
+  }
+  /* Elak sel/petak dipotong antara muka surat */
+  .avoid-break {
+    break-inside: avoid;
+  }
+  @page {
+    margin: 12mm;
+  }
+}
