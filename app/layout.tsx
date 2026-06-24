@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import "./globals.css";
 import SiteHeader from "@/components/SiteHeader";
+import { BottomNav } from "@/components/Nav";
 import { getSettings } from "@/lib/data";
 
 export const metadata: Metadata = {
@@ -21,10 +22,12 @@ export default async function RootLayout({
     <html lang="ms">
       <body>
         <SiteHeader settings={settings} />
-        <main className="mx-auto max-w-5xl px-4 py-6">{children}</main>
-        <footer className="no-print mx-auto max-w-5xl px-4 py-8 text-center text-xs text-slate-400">
+        {/* pb tambahan di telefon supaya kandungan tidak dilindungi bar bawah */}
+        <main className="mx-auto max-w-5xl px-4 py-6 pb-24 sm:pb-6">{children}</main>
+        <footer className="no-print mx-auto max-w-5xl px-4 pb-24 pt-8 text-center text-xs text-slate-400 sm:pb-8">
           {settings.system_name} &middot; SMK Raja Shahriman
         </footer>
+        <BottomNav />
       </body>
     </html>
   );
