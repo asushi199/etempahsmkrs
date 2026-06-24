@@ -19,6 +19,10 @@ const SLOT = 30;
 const SLOTS: number[] = [];
 for (let m = START_MIN; m < END_MIN; m += SLOT) SLOTS.push(m);
 
+// Semua titik masa pada grid 30 minit (termasuk masa tamat 14:45) untuk borang
+const GRID_TIMES: number[] = [];
+for (let m = START_MIN; m <= END_MIN; m += SLOT) GRID_TIMES.push(m);
+
 // Susun atur mendatar (mendatar = masa pada paksi-X, hari pada paksi-Y)
 const COL_PX = 78; // lebar setiap slot 30 minit
 const ROW_PX = 62; // tinggi setiap baris hari
@@ -175,7 +179,7 @@ export default function RoomTimetable({
           {/* Pengepala masa */}
           <div className="flex border-b border-slate-200 bg-slate-50">
             <div
-              className="shrink-0 border-r border-slate-200"
+              className="sticky left-0 z-30 shrink-0 border-r border-slate-200 bg-slate-50"
               style={{ width: LABEL_W }}
             />
             <div className="relative" style={{ width: TRACK_PX, height: 28 }}>
@@ -207,7 +211,7 @@ export default function RoomTimetable({
                 {/* Label hari */}
                 <div
                   className={
-                    "flex shrink-0 flex-col justify-center border-r border-slate-200 px-2 " +
+                    "sticky left-0 z-20 flex shrink-0 flex-col justify-center border-r border-slate-200 px-2 " +
                     (isToday ? "bg-brand-50" : "bg-slate-50")
                   }
                   style={{ width: LABEL_W, height: ROW_PX }}
@@ -408,25 +412,42 @@ function BookingModal({
               <label className="block text-sm font-medium text-slate-700">
                 Masa Mula
               </label>
-              <input
-                type="time"
+              <select
                 required
                 value={startTime}
-                onChange={(e) => setStartTime(e.target.value)}
+                onChange={(e) => {
+                  const v = e.target.value;
+                  setStartTime(v);
+                  // Pastikan masa tamat sentiasa selepas masa mula
+                  if (timeToMin(endTime) <= timeToMin(v)) {
+                    setEndTime(minToTime(Math.min(timeToMin(v) + SLOT, END_MIN)));
+                  }
+                }}
                 className="mt-1 w-full rounded-md border border-slate-300 px-3 py-2 text-sm focus:border-brand-600 focus:outline-none"
-              />
+              >
+                {GRID_TIMES.filter((m) => m < END_MIN).map((m) => (
+                  <option key={m} value={minToTime(m)}>
+                    {minToTime(m)}
+                  </option>
+                ))}
+              </select>
             </div>
             <div>
               <label className="block text-sm font-medium text-slate-700">
                 Masa Tamat
               </label>
-              <input
-                type="time"
+              <select
                 required
                 value={endTime}
                 onChange={(e) => setEndTime(e.target.value)}
                 className="mt-1 w-full rounded-md border border-slate-300 px-3 py-2 text-sm focus:border-brand-600 focus:outline-none"
-              />
+              >
+                {GRID_TIMES.filter((m) => m > timeToMin(startTime)).map((m) => (
+                  <option key={m} value={minToTime(m)}>
+                    {minToTime(m)}
+                  </option>
+                ))}
+              </select>
             </div>
           </div>
 
