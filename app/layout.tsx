@@ -22,7 +22,7 @@ export default async function RootLayout({
       <body>
         <SiteHeader settings={settings} />
         <main className="mx-auto max-w-5xl px-4 py-6">{children}</main>
-        <footer className="mx-auto max-w-5xl px-4 py-8 text-center text-xs text-slate-400">
+        <footer className="no-print mx-auto max-w-5xl px-4 py-8 text-center text-xs text-slate-400">
           {settings.system_name} &middot; SMK Raja Shahriman
         </footer>
       </body>

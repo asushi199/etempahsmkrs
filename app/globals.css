@@ -44,6 +44,16 @@ body {
   .avoid-break {
     break-inside: avoid;
   }
+  /* Setiap bilik pada halaman cetakan berasingan */
+  .print-page {
+    break-after: page;
+    border: none !important;
+    padding: 0 !important;
+    margin: 0 !important;
+  }
+  .print-page:last-of-type {
+    break-after: auto;
+  }
   @page {
     margin: 12mm;
   }

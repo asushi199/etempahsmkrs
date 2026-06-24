@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useMemo, useState } from "react";
+import Link from "next/link";
 import type { BookingWithRoom, Room } from "@/lib/types";
 import { formatTime } from "@/lib/format";
 import { getAdminPassword } from "@/lib/adminClient";
@@ -175,12 +176,14 @@ export default function ScheduleClient() {
         {/* Navigasi tempoh */}
         <div className="ml-auto flex items-center gap-2">
           {isAdmin && (
-            <button
-              onClick={() => window.print()}
+            <Link
+              href={`/cetak?minggu=${toISO(startOfWeek(anchor))}${
+                roomId ? `&bilik=${roomId}` : ""
+              }`}
               className="rounded-md border border-brand-600 bg-brand-50 px-3 py-2 text-sm font-medium text-brand-700 hover:bg-brand-100"
             >
               Cetak
-            </button>
+            </Link>
           )}
           <button
             onClick={() => move(-1)}

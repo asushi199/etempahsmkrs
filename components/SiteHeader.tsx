@@ -4,7 +4,7 @@ import type { Settings } from "@/lib/types";
 // Pengepala (header) berjenama — papar logo sekolah + nama sistem.
 export default function SiteHeader({ settings }: { settings: Settings }) {
   return (
-    <header className="border-b border-slate-200 bg-white">
+    <header className="no-print border-b border-slate-200 bg-white">
       <div className="mx-auto flex max-w-5xl items-center justify-between gap-4 px-4 py-3">
         <Link href="/" className="flex items-center gap-3">
           {settings.logo_url ? (

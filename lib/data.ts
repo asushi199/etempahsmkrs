@@ -49,6 +49,22 @@ export async function getBookingsForRoomDate(
   return (data ?? []) as Booking[];
 }
 
+export async function getBookingsForRange(
+  from: string,
+  to: string,
+  roomId?: string
+): Promise<Booking[]> {
+  let q = supabaseAdmin
+    .from("bookings")
+    .select("*")
+    .gte("booking_date", from)
+    .lte("booking_date", to);
+  if (roomId) q = q.eq("room_id", roomId);
+  const { data, error } = await q.order("start_time", { ascending: true });
+  if (error) throw error;
+  return (data ?? []) as Booking[];
+}
+
 export async function getBookingsForDate(
   date: string
 ): Promise<BookingWithRoom[]> {
